@@ -28,6 +28,7 @@ public class AddRecordDialog extends AlertDialog {
     private Button buttonSelectDate;
     private Button buttonSave;
     private Button buttonCancel;
+    private com.google.android.material.checkbox.MaterialCheckBox checkBoxReturned;
     
     private GiftRecord existingRecord;
     private OnRecordSavedListener listener;
@@ -81,6 +82,7 @@ public class AddRecordDialog extends AlertDialog {
         buttonSelectDate = view.findViewById(R.id.buttonSelectDate);
         buttonSave = view.findViewById(R.id.buttonSave);
         buttonCancel = view.findViewById(R.id.buttonCancel);
+        checkBoxReturned = view.findViewById(R.id.checkBoxReturned);
     }
     
     private void setupListeners() {
@@ -97,6 +99,8 @@ public class AddRecordDialog extends AlertDialog {
         editTextNotes.setText(existingRecord.getNotes());
         selectedDate = existingRecord.getEventDate();
         updateDateButton();
+        // 设置还礼状态
+        checkBoxReturned.setChecked(existingRecord.isReturned());
     }
     
     private void showDatePicker() {
@@ -161,6 +165,9 @@ public class AddRecordDialog extends AlertDialog {
             existingRecord.setAddress(address.isEmpty() ? null : address);
             existingRecord.setNotes(notes.isEmpty() ? null : notes);
             existingRecord.setEventDate(selectedDate);
+            // 更新还礼状态
+            boolean isReturned = checkBoxReturned.isChecked();
+            existingRecord.setReturned(isReturned);
             
             if (listener != null) {
                 listener.onRecordUpdated(existingRecord);
