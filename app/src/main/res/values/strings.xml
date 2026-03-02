@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">礼金簿</string>
+    
+    <!-- 主页相关 -->
+    <string name="search_hint">搜索礼金簿...</string>
+    <string name="no_books_yet">还没有礼金簿</string>
+    <string name="create_first_book">点击右下角按钮创建第一个礼金簿</string>
+    <string name="more_options">更多选项</string>
+    
+    <!-- 统计信息 -->
+    <string name="records_count">记录数</string>
+    <string name="total_amount">总金额</string>
+    <string name="return_amount">已还礼</string>
+    
+    <!-- 添加/编辑礼金簿 -->
+    <string name="book_name">礼金簿名称</string>
+    <string name="book_description">描述</string>
+    <string name="cancel">取消</string>
+    <string name="add_book">添加礼金簿</string>
+    <string name="edit_book">编辑礼金簿</string>
+    
+    <!-- 错误提示 -->
+    <string name="name_required">请输入礼金簿名称</string>
+    <string name="operation_success">操作成功</string>
+    <string name="operation_failed">操作失败</string>
+    
+    <!-- 礼金簿详情 -->
+    <string name="statistics">统计信息</string>
+    <string name="search_records">搜索记录...</string>
+    <string name="add_record">添加记录</string>
+    <string name="no_records_yet">还没有礼金记录</string>
+    <string name="add_first_record">点击上方按钮添加第一条记录</string>
+    
+    <!-- 礼金记录 -->
+    <string name="person_name">宾客姓名</string>
+    <string name="event_type">事件类型</string>
+    <string name="amount">礼金金额</string>
+    <string name="phone_number">联系电话</string>
+    <string name="address">地址</string>
+    <string name="notes">备注</string>
+    <string name="event_date">事件日期</string>
+    <string name="returned">已还礼</string>
+    <string name="not_returned">未还礼</string>
+    <string name="already_returned">已还礼</string>
+    <string name="mark_return">标记还礼</string>
+    <string name="return_gift">标记还礼</string>
+    <string name="edit_record">编辑记录</string>
+    <string name="delete_record">删除记录</string>
+    
+    <!-- 对话框字段验证 -->
+    <string name="person_name_required">请输入宾客姓名</string>
+    <string name="event_type_required">请选择事件类型</string>
+    <string name="amount_required">请输入礼金金额</string>
+    <string name="amount_positive">金额必须大于0</string>
+    <string name="amount_invalid">请输入有效的金额</string>
+    
+    <!-- 操作按钮 -->
+    <string name="save">保存</string>
+    <string name="select_date">选择日期</string>
+    
+    <!-- 还礼相关 -->
+    <string name="mark_as_returned">标记为已还礼</string>
+    <string name="select_return_date">选择还礼日期</string>
+    <string name="return_notes">还礼备注</string>
+    <string name="mark_return_title">标记还礼</string>
+    
+    <!-- 对话框标题和操作 -->
+    <string name="select_operation">选择操作</string>
+    <string name="confirm_delete">确认删除</string>
+    <string name="delete_record_confirm">确定要删除宾客 \"%1$s\" 的记录吗？</string>
+    <string name="delete">删除</string>
+    <string name="delete_success">删除成功</string>
+    
+    <!-- 导入导出功能 -->
+    <string name="import_data">导入数据</string>
+    <string name="export_data">导出数据</string>
+    <string name="settings">设置</string>
+    <string name="about">关于</string>
+    <string name="export_success">导出成功！文件已保存到下载目录</string>
+    <string name="export_failed">导出失败：%1$s</string>
+    <string name="import_success">成功导入 %1$d 条记录</string>
+    <string name="import_failed">导入失败：%1$s</string>
+    <string name="select_csv_file">请选择CSV文件</string>
+    <string name="permission_required">需要存储权限才能进行导入导出操作</string>
+    
+    <!-- 设置功能 -->
+    <string name="display_settings">显示设置</string>
+    <string name="data_settings">数据设置</string>
+    <string name="notification_settings">通知设置</string>
+    <string name="theme">主题</string>
+    <string name="light_theme">浅色主题</string>
+    <string name="dark_theme">深色主题</string>
+    <string name="font_size">字体大小</string>
+    <string name="small">小</string>
+    <string name="normal">正常</string>
+    <string name="large">大</string>
+    <string name="auto_backup">自动备份</string>
+    <string name="auto_backup_desc">定期自动备份数据</string>
+    <string name="backup_frequency">备份频率</string>
+    <string name="daily">每天</string>
+    <string name="weekly">每周</string>
+    <string name="monthly">每月</string>
+    <string name="return_reminder">还礼提醒</string>
+    <string name="return_reminder_desc">提醒未还礼的记录</string>
+    <string name="reminder_time">提醒时间</string>
+    <string name="app_info">应用信息</string>
+    
+</resources>
