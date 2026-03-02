@@ -25,7 +25,9 @@ public class AddRecordDialog extends AlertDialog {
     private TextInputEditText editTextPhoneNumber;
     private TextInputEditText editTextAddress;
     private TextInputEditText editTextNotes;
+    private TextInputEditText editTextReturnNotes;
     private Button buttonSelectDate;
+    private Button buttonSelectReturnDate;
     private Button buttonSave;
     private Button buttonCancel;
     private com.google.android.material.checkbox.MaterialCheckBox checkBoxReturned;
@@ -79,7 +81,9 @@ public class AddRecordDialog extends AlertDialog {
         editTextPhoneNumber = view.findViewById(R.id.editTextPhoneNumber);
         editTextAddress = view.findViewById(R.id.editTextAddress);
         editTextNotes = view.findViewById(R.id.editTextNotes);
+        editTextReturnNotes = view.findViewById(R.id.editTextReturnNotes);
         buttonSelectDate = view.findViewById(R.id.buttonSelectDate);
+        buttonSelectReturnDate = view.findViewById(R.id.buttonSelectReturnDate);
         buttonSave = view.findViewById(R.id.buttonSave);
         buttonCancel = view.findViewById(R.id.buttonCancel);
         checkBoxReturned = view.findViewById(R.id.checkBoxReturned);
@@ -87,8 +91,15 @@ public class AddRecordDialog extends AlertDialog {
     
     private void setupListeners() {
         buttonSelectDate.setOnClickListener(v -> showDatePicker());
+        buttonSelectReturnDate.setOnClickListener(v -> showReturnDatePicker());
         buttonSave.setOnClickListener(v -> saveRecord());
         buttonCancel.setOnClickListener(v -> dismiss());
+        
+        // 监听复选框状态变化
+        checkBoxReturned.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            buttonSelectReturnDate.setEnabled(isChecked);
+            editTextReturnNotes.setEnabled(isChecked);
+        });
     }
     
     private void populateFields() {
@@ -100,12 +111,24 @@ public class AddRecordDialog extends AlertDialog {
         selectedDate = existingRecord.getEventDate();
         updateDateButton();
         // 设置还礼状态
-        checkBoxReturned.setChecked(existingRecord.isReturned());
+        boolean isReturned = existingRecord.isReturned();
+        checkBoxReturned.setChecked(isReturned);
+        // 根据还礼状态启用/禁用相关组件
+        buttonSelectReturnDate.setEnabled(isReturned);
+        editTextReturnNotes.setEnabled(isReturned);
+        // 如果已经还礼，填充还礼信息
+        if (isReturned) {
+            // 初始化还礼日期
+            selectedReturnDate = existingRecord.getReturnDate() > 0 ? 
+                existingRecord.getReturnDate() : System.currentTimeMillis();
+            updateReturnDateButton();
+            editTextReturnNotes.setText(existingRecord.getReturnNotes());
+        }
     }
     
     private void showDatePicker() {
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-                .setTitleText("选择事件日期")
+                .setTitleText(getContext().getString(R.string.select_date))
                 .setSelection(selectedDate)
                 .build();
         
@@ -114,7 +137,37 @@ public class AddRecordDialog extends AlertDialog {
             updateDateButton();
         });
         
-        datePicker.show(((androidx.fragment.app.FragmentActivity) getContext()).getSupportFragmentManager(), "DATE_PICKER");
+        // 获取 Activity 上下文
+        android.content.Context activityContext = getContext();
+        if (activityContext instanceof androidx.fragment.app.FragmentActivity) {
+            datePicker.show(((androidx.fragment.app.FragmentActivity) activityContext).getSupportFragmentManager(), "DATE_PICKER");
+        }
+    }
+    
+    private long selectedReturnDate;
+    
+    private void showReturnDatePicker() {
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText(getContext().getString(R.string.select_return_date))
+                .setSelection(selectedReturnDate > 0 ? selectedReturnDate : System.currentTimeMillis())
+                .build();
+        
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            selectedReturnDate = selection;
+            updateReturnDateButton();
+        });
+        
+        // 获取 Activity 上下文
+        android.content.Context activityContext = getContext();
+        if (activityContext instanceof androidx.fragment.app.FragmentActivity) {
+            datePicker.show(((androidx.fragment.app.FragmentActivity) activityContext).getSupportFragmentManager(), "RETURN_DATE_PICKER");
+        }
+    }
+    
+    private void updateReturnDateButton() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy 年 MM 月 dd 日", Locale.getDefault());
+        String dateText = sdf.format(new Date(selectedReturnDate));
+        buttonSelectReturnDate.setText(dateText);
     }
     
     private void updateDateButton() {
@@ -168,6 +221,14 @@ public class AddRecordDialog extends AlertDialog {
             // 更新还礼状态
             boolean isReturned = checkBoxReturned.isChecked();
             existingRecord.setReturned(isReturned);
+            if (isReturned) {
+                existingRecord.setReturnDate(selectedReturnDate > 0 ? selectedReturnDate : System.currentTimeMillis());
+                String returnNotes = editTextReturnNotes.getText().toString().trim();
+                existingRecord.setReturnNotes(returnNotes.isEmpty() ? null : returnNotes);
+            } else {
+                existingRecord.setReturnDate(0);
+                existingRecord.setReturnNotes(null);
+            }
             
             if (listener != null) {
                 listener.onRecordUpdated(existingRecord);
